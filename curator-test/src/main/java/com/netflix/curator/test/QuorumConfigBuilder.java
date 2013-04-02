@@ -77,6 +77,7 @@ public class QuorumConfigBuilder
         }
 
         Properties properties = new Properties();
+        Properties dynamicProperties = new Properties();
         properties.setProperty("initLimit", "10");
         properties.setProperty("syncLimit", "5");
         properties.setProperty("dataDir", spec.getDataDirectory().getCanonicalPath());
@@ -85,12 +86,16 @@ public class QuorumConfigBuilder
         {
             for ( InstanceSpec thisSpec : instanceSpecs )
             {
-                properties.setProperty("server." + thisSpec.getServerId(), String.format("localhost:%d:%d", thisSpec.getQuorumPort(), thisSpec.getElectionPort()));
+                dynamicProperties.setProperty("server." + thisSpec.getServerId(), String.format("localhost:%d:%d", thisSpec.getQuorumPort(), thisSpec.getElectionPort()));
             }
         }
 
         QuorumPeerConfig config = new QuorumPeerConfig();
         config.parseProperties(properties);
+        // Make sure a QuorumVerifier is created.
+        config.parseDynamicConfig(dynamicProperties, 0, true);
+        // Load the myid file correctly.
+        config.checkValidity();
         return config;
     }
 }
