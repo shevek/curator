@@ -44,7 +44,7 @@ public class ByteCodeRewrite
             try
             {
                 CtClass cc = pool.get("org.apache.zookeeper.server.ZooKeeperServer");
-                fixMethods(cc);
+                fixMethods(cc, "registerJMX", "unregisterJMX");
             }
             catch ( NotFoundException ignore )
             {
@@ -54,8 +54,18 @@ public class ByteCodeRewrite
             try
             {
                 CtClass cc = pool.get("org.apache.zookeeper.server.quorum.LearnerZooKeeperServer");
-                fixMethods(cc);
+                fixMethods(cc, "registerJMX", "unregisterJMX");
             }
+            catch ( NotFoundException ignore )
+            {
+                // ignore
+            }
+
+			try
+			{
+				CtClass cc = pool.get("org.apache.zookeeper.jmx.MBeanRegistry");
+				fixMethods(cc, "register", "unregister");
+			}
             catch ( NotFoundException ignore )
             {
                 // ignore
@@ -67,13 +77,15 @@ public class ByteCodeRewrite
         }
     }
 
-    private static void fixMethods(CtClass cc) throws CannotCompileException
+    private static void fixMethods(CtClass cc, String... methodNames) throws CannotCompileException
     {
         for ( CtMethod method : cc.getDeclaredMethods() )
         {
-            if ( method.getName().equals("registerJMX") || method.getName().equals("unregisterJMX") )
-            {
-                method.setBody(null);
+			for (String methodName : methodNames) {
+				if ( method.getName().equals(methodName) )
+				{
+					method.setBody(null);
+				}
             }
         }
         cc.toClass();
