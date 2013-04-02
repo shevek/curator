@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netflix.curator.RetryLoop;
 import com.netflix.curator.RetryPolicy;
+import com.netflix.curator.ensemble.AbstractEnsembleProvider;
 import com.netflix.curator.ensemble.EnsembleProvider;
 import com.netflix.curator.utils.ThreadUtils;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * If the set of instances should change, new ZooKeeper connections will use the new connection
  * string.
  */
-public class ExhibitorEnsembleProvider implements EnsembleProvider
+public class ExhibitorEnsembleProvider extends AbstractEnsembleProvider
 {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final AtomicReference<Exhibitors> exhibitors = new AtomicReference<Exhibitors>();
@@ -177,9 +178,11 @@ public class ExhibitorEnsembleProvider implements EnsembleProvider
             }
 
             String newConnectionStringValue = newConnectionString.toString();
+            boolean connectionStringChanged = false;
             if ( !newConnectionStringValue.equals(connectionString.get()) )
             {
                 log.info(String.format("Connection string has changed. Old value (%s), new value (%s)", connectionString.get(), newConnectionStringValue));
+                connectionStringChanged = true;
             }
             Exhibitors newExhibitors = new Exhibitors
             (
@@ -196,6 +199,8 @@ public class ExhibitorEnsembleProvider implements EnsembleProvider
             );
             connectionString.set(newConnectionStringValue);
             exhibitors.set(newExhibitors);
+            if (connectionStringChanged)
+                fireEnsembleChanged();
         }
     }
 

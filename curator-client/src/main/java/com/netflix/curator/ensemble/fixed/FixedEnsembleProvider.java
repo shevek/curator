@@ -19,13 +19,14 @@
 package com.netflix.curator.ensemble.fixed;
 
 import com.google.common.base.Preconditions;
+import com.netflix.curator.ensemble.AbstractEnsembleProvider;
 import com.netflix.curator.ensemble.EnsembleProvider;
 import java.io.IOException;
 
 /**
  * Standard ensemble provider that wraps a fixed connection string
  */
-public class FixedEnsembleProvider implements EnsembleProvider
+public class FixedEnsembleProvider extends AbstractEnsembleProvider
 {
     private final String connectionString;
 

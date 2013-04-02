@@ -18,6 +18,7 @@ package com.netflix.curator.framework.recipes.locks;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
+import com.netflix.curator.ensemble.EnsembleListener;
 import com.netflix.curator.ensemble.EnsembleProvider;
 import com.netflix.curator.framework.CuratorFramework;
 import com.netflix.curator.framework.CuratorFrameworkFactory;
@@ -76,6 +77,10 @@ public class TestInterProcessSemaphoreCluster
                 public void close() throws IOException
                 {
                 }
+
+				@Override
+				public void addListener(EnsembleListener listener) {
+				}
             };
 
             final Semaphore             acquiredSemaphore = new Semaphore(0);

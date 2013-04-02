@@ -1,12 +1,19 @@
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
+def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
 buildscript {
-    repositories { mavenCentral() }
+    repositories {
+		mavenLocal()
+		mavenCentral()
+	}
     apply from: file('gradle/buildscript.gradle'), to: buildscript
 }
 
 allprojects {
-    repositories { mavenCentral() }
+    repositories {
+		mavenLocal()
+		mavenCentral()
+	}
 }
 
 apply from: file('gradle/convention.gradle')
@@ -25,7 +32,7 @@ subprojects {
     group = "com.netflix.${githubProjectName}" // TEMPLATE: Set to organization of project
 
     dependencies {
-        compile('org.apache.zookeeper:zookeeper:3.4.5')
+        compile('org.apache.zookeeper:zookeeper:3.5.0')
         {
             exclude group: 'com.sun.jmx', module: 'jmxri'
             exclude group: 'com.sun.jdmk', module: 'jmxtools'
@@ -55,6 +62,7 @@ project(':curator-test')
 {
     dependencies
     {
+        compile 'org.slf4j:slf4j-api:1.6.4'
         compile 'org.javassist:javassist:3.15.0-GA'
         compile 'org.apache.commons:commons-math:2.2'
     }
@@ -105,7 +113,7 @@ project(':curator-x-discovery')
     dependencies
     {
         compile project(':curator-recipes')
-        compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.2'
+        compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.12'
         testCompile project(':curator-test')
     }
 }

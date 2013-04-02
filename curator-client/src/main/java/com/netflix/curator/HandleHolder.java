@@ -20,6 +20,7 @@ package com.netflix.curator;
 
 import com.netflix.curator.ensemble.EnsembleProvider;
 import com.netflix.curator.utils.ZookeeperFactory;
+import java.io.IOException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
@@ -39,6 +40,8 @@ class HandleHolder
         ZooKeeper getZooKeeper() throws Exception;
         
         String getConnectionString();
+
+        void setConnectionString(String connectionString) throws Exception;
     }
 
     HandleHolder(ZookeeperFactory zookeeperFactory, Watcher watcher, EnsembleProvider ensembleProvider, int sessionTimeout, boolean canBeReadOnly)
@@ -60,10 +63,11 @@ class HandleHolder
         return (helper != null) ? helper.getConnectionString() : null;
     }
 
-    boolean hasNewConnectionString() 
+    void handleNewConnectionString() throws Exception
     {
-        String helperConnectionString = (helper != null) ? helper.getConnectionString() : null;
-        return (helperConnectionString != null) && !ensembleProvider.getConnectionString().equals(helperConnectionString);
+        Helper h = helper;
+        if (h != null)
+            h.setConnectionString(ensembleProvider.getConnectionString());
     }
 
     void closeAndClear() throws Exception
@@ -82,6 +86,7 @@ class HandleHolder
         {
             private volatile ZooKeeper zooKeeperHandle = null;
             private volatile String connectionString = null;
+            private final Object lock = this;
 
             @Override
             public ZooKeeper getZooKeeper() throws Exception
@@ -107,6 +112,16 @@ class HandleHolder
                         {
                             return connectionString;
                         }
+
+                        @Override
+                        public void setConnectionString(String value) throws IOException
+                        {
+                            // It's not possible to specify "outer-Helper.this" here.
+                            synchronized (lock) {
+                                zooKeeperHandle.updateServerList(value);
+                                connectionString = value;
+                            }
+                        }
                     };
 
                     return zooKeeperHandle;
@@ -117,6 +132,12 @@ class HandleHolder
             public String getConnectionString()
             {
                 return connectionString;
+            }
+
+            @Override
+            public void setConnectionString(String connectionString)
+            {
+                // No-op because we will get it from the EnsembleProvider anyway.
             }
         };
     }

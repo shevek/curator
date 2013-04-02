@@ -19,6 +19,7 @@ package com.netflix.curator;
 
 import com.google.common.io.Closeables;
 import com.netflix.curator.drivers.TracerDriver;
+import com.netflix.curator.ensemble.EnsembleListener;
 import com.netflix.curator.ensemble.EnsembleProvider;
 import com.netflix.curator.utils.DebugUtils;
 import com.netflix.curator.utils.ZookeeperFactory;
@@ -62,6 +63,12 @@ class ConnectionState implements Watcher, Closeable
         }
 
         zooKeeper = new HandleHolder(zookeeperFactory, this, ensembleProvider, sessionTimeoutMs, canBeReadOnly);
+        ensembleProvider.addListener(new EnsembleListener() {
+            @Override
+            public void ensembleChanged(EnsembleProvider provider) {
+                handleNewConnectionString();
+            }
+        });
     }
 
     ZooKeeper getZooKeeper() throws Exception
@@ -167,30 +174,15 @@ class ConnectionState implements Watcher, Closeable
     private synchronized void checkTimeouts() throws Exception
     {
         long elapsed = System.currentTimeMillis() - connectionStartMs;
-        if ( elapsed >= Math.min(sessionTimeoutMs, connectionTimeoutMs) )
+        if (elapsed > connectionTimeoutMs)
         {
-            if ( zooKeeper.hasNewConnectionString() )
+            KeeperException.ConnectionLossException connectionLossException = new KeeperException.ConnectionLossException();
+            if ( !Boolean.getBoolean(DebugUtils.PROPERTY_DONT_LOG_CONNECTION_ISSUES) )
             {
-                handleNewConnectionString();
+                log.error(String.format("Connection timed out for connection string (%s) and timeout (%d) / elapsed (%d)", zooKeeper.getConnectionString(), connectionTimeoutMs, elapsed), connectionLossException);
             }
-            else if ( elapsed > sessionTimeoutMs )
-            {
-                if ( !Boolean.getBoolean(DebugUtils.PROPERTY_DONT_LOG_CONNECTION_ISSUES) )
-                {
-                    log.warn(String.format("Connection attempt unsuccessful after %d (greater than session timeout of %d). Resetting connection and trying again with a new connection.", elapsed, sessionTimeoutMs));
-                }
-                reset();
-            }
-            else
-            {
-                KeeperException.ConnectionLossException connectionLossException = new KeeperException.ConnectionLossException();
-                if ( !Boolean.getBoolean(DebugUtils.PROPERTY_DONT_LOG_CONNECTION_ISSUES) )
-                {
-                    log.error(String.format("Connection timed out for connection string (%s) and timeout (%d) / elapsed (%d)", zooKeeper.getConnectionString(), connectionTimeoutMs, elapsed), connectionLossException);
-                }
-                tracer.get().addCount("connections-timed-out", 1);
-                throw connectionLossException;
-            }
+            tracer.get().addCount("connections-timed-out", 1);
+            throw connectionLossException;
         }
     }
 
@@ -207,7 +199,6 @@ class ConnectionState implements Watcher, Closeable
     private boolean checkState(Event.KeeperState state, boolean wasConnected)
     {
         boolean isConnected = wasConnected;
-        boolean checkNewConnectionString = true;
         switch ( state )
         {
         default:
@@ -234,7 +225,6 @@ class ConnectionState implements Watcher, Closeable
         case Expired:
         {
             isConnected = false;
-            checkNewConnectionString = false;
             handleExpiredSession();
             break;
         }
@@ -244,11 +234,6 @@ class ConnectionState implements Watcher, Closeable
             // NOP
             break;
         }
-        }
-
-        if ( checkNewConnectionString && zooKeeper.hasNewConnectionString() )
-        {
-            handleNewConnectionString();
         }
 
         return isConnected;
@@ -261,7 +246,7 @@ class ConnectionState implements Watcher, Closeable
 
         try
         {
-            reset();
+            zooKeeper.handleNewConnectionString();
         }
         catch ( Exception e )
         {
