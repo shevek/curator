@@ -20,13 +20,15 @@ package com.netflix.curator;
 
 import com.netflix.curator.ensemble.EnsembleProvider;
 import com.netflix.curator.utils.ZookeeperFactory;
-import java.io.IOException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class HandleHolder
 {
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final ZookeeperFactory zookeeperFactory;
     private final Watcher watcher;
     private final EnsembleProvider ensembleProvider;
@@ -68,6 +70,8 @@ class HandleHolder
         Helper h = helper;
         if (h != null)
             h.setConnectionString(ensembleProvider.getConnectionString());
+        else
+            log.info("No Helper to inform about connection string.");
     }
 
     void closeAndClear() throws Exception
@@ -91,11 +95,13 @@ class HandleHolder
             @Override
             public ZooKeeper getZooKeeper() throws Exception
             {
-                synchronized(this)
+                log.info("Getting ZooKeeper handle: this=" + System.identityHashCode(lock));
+                synchronized(lock)
                 {
                     if ( zooKeeperHandle == null )
                     {
                         connectionString = ensembleProvider.getConnectionString();
+                        log.info("Opening new ZooKeeper handle to " + connectionString);
                         zooKeeperHandle = zookeeperFactory.newZooKeeper(connectionString, sessionTimeout, watcher, canBeReadOnly);
                     }
 
@@ -114,10 +120,12 @@ class HandleHolder
                         }
 
                         @Override
-                        public void setConnectionString(String value) throws IOException
+                        public void setConnectionString(String value) throws Exception
                         {
+                            log.info("Setting ZooKeeper hosts (inner): this=" + System.identityHashCode(lock));
                             // It's not possible to specify "outer-Helper.this" here.
                             synchronized (lock) {
+                                log.info("ZooKeeper handle has a session; updating server list to " + value);
                                 zooKeeperHandle.updateServerList(value);
                                 connectionString = value;
                             }
@@ -135,9 +143,19 @@ class HandleHolder
             }
 
             @Override
-            public void setConnectionString(String connectionString)
+            public void setConnectionString(String connectionString) throws Exception
             {
+                log.info("Setting ZooKeeper hosts (outer): this=" + System.identityHashCode(lock));
                 // No-op because we will get it from the EnsembleProvider anyway.
+                synchronized(lock) {
+                    if (zooKeeperHandle == null) {
+                        log.debug("No ZooKeeper handle; discarding connection string " + connectionString);
+                        return;
+                    }
+                    if (helper == this)
+                        throw new IllegalStateException("I have a ZooKeeper handle, but am still the helper; discarding connection string " + connectionString);
+                    helper.setConnectionString(connectionString);
+                }
             }
         };
     }

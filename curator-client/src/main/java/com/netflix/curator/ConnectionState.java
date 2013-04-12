@@ -251,6 +251,15 @@ class ConnectionState implements Watcher, Closeable
         catch ( Exception e )
         {
             queueBackgroundException(e);
+            log.warn("Failed to update server list", e);
+            try
+            {
+                reset();
+            }
+            catch ( Exception _e )
+            {
+                queueBackgroundException(_e);
+            }
         }
     }
 
