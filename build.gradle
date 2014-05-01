@@ -1,18 +1,22 @@
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
-def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+// def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
 buildscript {
     repositories {
-		mavenLocal()
-		mavenCentral()
+		// mavenLocal()
+		// mavenCentral()
+		maven { url 'http://nexus.nebula.com/content/repositories/snapshots/' }
+		maven { url 'http://nexus.nebula.com/content/repositories/releases/' }
+		maven { url 'http://nexus.nebula.com/content/repositories/central/' }
 	}
     apply from: file('gradle/buildscript.gradle'), to: buildscript
 }
 
 allprojects {
     repositories {
-		mavenLocal()
-		mavenCentral()
+		maven { url 'http://nexus.nebula.com/content/repositories/snapshots/' }
+		maven { url 'http://nexus.nebula.com/content/repositories/releases/' }
+		maven { url 'http://nexus.nebula.com/content/repositories/central/' }
 	}
 }
 
