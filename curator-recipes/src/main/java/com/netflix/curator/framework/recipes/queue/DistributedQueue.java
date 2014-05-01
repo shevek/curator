@@ -214,7 +214,7 @@ public class DistributedQueue<T> implements QueueBase<T>
                 }
             }
 
-            Closeables.closeQuietly(childrenCache);
+            Closeables.close(childrenCache, true);
             putListenerContainer.clear();
             service.shutdownNow();
         }

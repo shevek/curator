@@ -61,9 +61,9 @@ public class PathCacheExample
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(server);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
+            Closeables.close(server, true);
         }
     }
 
@@ -154,7 +154,7 @@ public class PathCacheExample
         {
             for ( ExampleServer server : servers )
             {
-                Closeables.closeQuietly(server);
+                Closeables.close(server, true);
             }
         }
     }

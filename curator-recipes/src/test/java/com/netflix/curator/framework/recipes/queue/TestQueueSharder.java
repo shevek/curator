@@ -88,8 +88,8 @@ public class TestQueueSharder extends BaseClassForTests
         finally
         {
             timing.sleepABit(); // let queue clear
-            Closeables.closeQuietly(sharder);
-            Closeables.closeQuietly(client);
+            Closeables.close(sharder, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -124,9 +124,9 @@ public class TestQueueSharder extends BaseClassForTests
         finally
         {
             timing.sleepABit(); // let queues clear
-            Closeables.closeQuietly(sharder1);
-            Closeables.closeQuietly(sharder2);
-            Closeables.closeQuietly(client);
+            Closeables.close(sharder1, true);
+            Closeables.close(sharder2, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -181,8 +181,8 @@ public class TestQueueSharder extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(sharder);
-            Closeables.closeQuietly(client);
+            Closeables.close(sharder, true);
+            Closeables.close(client, true);
         }
     }
 

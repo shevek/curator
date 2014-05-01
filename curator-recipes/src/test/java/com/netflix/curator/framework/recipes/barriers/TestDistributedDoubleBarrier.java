@@ -90,7 +90,7 @@ public class TestDistributedDoubleBarrier extends BaseClassForTests
                         }
                         finally
                         {
-                            Closeables.closeQuietly(client);
+                            Closeables.close(client, true);
                         }
 
                         return null;
@@ -159,7 +159,7 @@ public class TestDistributedDoubleBarrier extends BaseClassForTests
         finally
         {
             service.shutdown();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -231,7 +231,7 @@ public class TestDistributedDoubleBarrier extends BaseClassForTests
         {
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }

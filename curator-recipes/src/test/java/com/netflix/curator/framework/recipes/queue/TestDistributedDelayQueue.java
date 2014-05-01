@@ -57,8 +57,8 @@ public class TestDistributedDelayQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -84,8 +84,8 @@ public class TestDistributedDelayQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -122,8 +122,8 @@ public class TestDistributedDelayQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 

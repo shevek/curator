@@ -74,7 +74,7 @@ public class TestCompression extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
 
         Assert.assertEquals(compressCounter.get(), 1);
@@ -99,7 +99,7 @@ public class TestCompression extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -120,7 +120,7 @@ public class TestCompression extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

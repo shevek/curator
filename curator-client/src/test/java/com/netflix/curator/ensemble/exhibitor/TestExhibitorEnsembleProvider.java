@@ -114,7 +114,7 @@ public class TestExhibitorEnsembleProvider extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(provider);
+            Closeables.close(provider, true);
         }
     }
 
@@ -188,7 +188,7 @@ public class TestExhibitorEnsembleProvider extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(secondServer);
+            Closeables.close(secondServer, true);
         }
     }
 

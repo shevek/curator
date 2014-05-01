@@ -145,7 +145,11 @@ public class QueueSharder<U, T extends QueueBase<U>> implements Closeable
         if ( state.compareAndSet(State.STARTED, State.CLOSED) )
         {
             service.shutdownNow();
-            Closeables.closeQuietly(leaderLatch);
+			try {
+				Closeables.close(leaderLatch, true);
+			} catch (IOException e) {
+				log.error("Closing a latch", e);
+			}
 
             for ( T queue : queues.values() )
             {

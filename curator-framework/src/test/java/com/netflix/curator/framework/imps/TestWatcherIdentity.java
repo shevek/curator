@@ -89,12 +89,12 @@ public class TestWatcherIdentity extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
     @Test
-    public void testSimpleId()
+    public void testSimpleId() throws Exception
     {
         CountCuratorWatcher curatorWatcher = new CountCuratorWatcher();
         CountZKWatcher zkWatcher = new CountZKWatcher();
@@ -107,7 +107,7 @@ public class TestWatcherIdentity extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -131,7 +131,7 @@ public class TestWatcherIdentity extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -156,7 +156,7 @@ public class TestWatcherIdentity extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

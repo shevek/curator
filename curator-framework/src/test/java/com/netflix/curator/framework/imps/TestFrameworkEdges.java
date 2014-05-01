@@ -94,7 +94,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -117,7 +117,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -147,7 +147,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -166,7 +166,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -198,7 +198,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -237,7 +237,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -275,7 +275,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -300,7 +300,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -361,7 +361,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -395,7 +395,7 @@ public class TestFrameworkEdges extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
 
         try

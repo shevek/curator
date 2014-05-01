@@ -16,6 +16,7 @@
 package com.netflix.curator.framework.recipes.locks;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Closeables;
 import com.netflix.curator.framework.CuratorFramework;
@@ -121,7 +122,7 @@ public class InterProcessSemaphore
     {
         for ( Lease l : leases )
         {
-            Closeables.closeQuietly(l);
+			returnLease(l);
         }
     }
 
@@ -132,7 +133,11 @@ public class InterProcessSemaphore
      */
     public void     returnLease(Lease lease)
     {
-        Closeables.closeQuietly(lease);
+		try {
+			Closeables.close(lease, true);
+		} catch (IOException e) {
+			log.error("Failed to release a lease", e);
+		}
     }
 
     /**

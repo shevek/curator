@@ -76,7 +76,7 @@ public class TestFrameworkBackground extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -110,7 +110,7 @@ public class TestFrameworkBackground extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

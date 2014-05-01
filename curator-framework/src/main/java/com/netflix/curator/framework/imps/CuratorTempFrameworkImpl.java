@@ -17,11 +17,13 @@
 package com.netflix.curator.framework.imps;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
 import com.google.common.io.Closeables;
 import com.netflix.curator.framework.CuratorFrameworkFactory;
 import com.netflix.curator.framework.CuratorTempFramework;
 import com.netflix.curator.framework.api.TempGetDataBuilder;
 import com.netflix.curator.framework.api.transaction.CuratorTransaction;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -131,8 +133,13 @@ public class CuratorTempFrameworkImpl implements CuratorTempFramework
 
         if ( client != null )
         {
-            Closeables.closeQuietly(client);
-            client = null;
+			try {
+				Closeables.close(client, true);
+				client = null;
+			}
+			catch (IOException e) {
+				throw Throwables.propagate(e);
+			}
         }
     }
 }

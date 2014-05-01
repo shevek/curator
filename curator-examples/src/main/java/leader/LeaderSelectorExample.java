@@ -65,14 +65,14 @@ public class LeaderSelectorExample
 
             for ( ExampleClient exampleClient : examples )
             {
-                Closeables.closeQuietly(exampleClient);
+                Closeables.close(exampleClient, true);
             }
             for ( CuratorFramework client : clients )
             {
-                Closeables.closeQuietly(client);
+                Closeables.close(client, true);
             }
 
-            Closeables.closeQuietly(server);
+            Closeables.close(server, true);
         }
     }
 }

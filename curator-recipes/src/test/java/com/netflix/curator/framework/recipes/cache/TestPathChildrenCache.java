@@ -66,8 +66,8 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -107,8 +107,8 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -161,8 +161,8 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -207,7 +207,7 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -235,7 +235,7 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -569,7 +569,7 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -634,8 +634,8 @@ public class TestPathChildrenCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 

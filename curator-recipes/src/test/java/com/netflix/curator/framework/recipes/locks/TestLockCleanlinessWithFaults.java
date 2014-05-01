@@ -65,7 +65,7 @@ public class TestLockCleanlinessWithFaults extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

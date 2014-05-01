@@ -143,14 +143,14 @@ public class TestInterProcessSemaphoreCluster
                                         if ( lease != null )
                                         {
                                             acquireCount.decrementAndGet();
-                                            Closeables.closeQuietly(lease);
+                                            Closeables.close(lease, true);
                                         }
                                     }
                                 }
                             }
                             finally
                             {
-                                Closeables.closeQuietly(client);
+                                Closeables.close(client, true);
                             }
                             return null;
                         }
@@ -181,7 +181,7 @@ public class TestInterProcessSemaphoreCluster
             executorService.shutdown();
             executorService.awaitTermination(10, TimeUnit.SECONDS);
             executorService.shutdownNow();
-            Closeables.closeQuietly(cluster);
+            Closeables.close(cluster, true);
         }
     }
 
@@ -252,7 +252,7 @@ public class TestInterProcessSemaphoreCluster
             }
             finally
             {
-                Closeables.closeQuietly(client);
+                Closeables.close(client, true);
             }
 
             long        startTicks = System.currentTimeMillis();
@@ -289,9 +289,9 @@ public class TestInterProcessSemaphoreCluster
         {
             for ( SemaphoreClient semaphoreClient : semaphoreClients )
             {
-                Closeables.closeQuietly(semaphoreClient);
+                Closeables.close(semaphoreClient, true);
             }
-            Closeables.closeQuietly(cluster);
+            Closeables.close(cluster, true);
             executorService.shutdownNow();
         }
     }

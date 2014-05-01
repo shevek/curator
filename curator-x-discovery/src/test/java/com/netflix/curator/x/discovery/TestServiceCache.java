@@ -93,7 +93,7 @@ public class TestServiceCache
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -136,7 +136,7 @@ public class TestServiceCache
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -190,7 +190,7 @@ public class TestServiceCache
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -248,7 +248,7 @@ public class TestServiceCache
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }

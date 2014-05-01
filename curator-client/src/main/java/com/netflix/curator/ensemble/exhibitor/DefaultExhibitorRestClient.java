@@ -61,7 +61,7 @@ public class DefaultExhibitorRestClient implements ExhibitorRestClient
         }
         finally
         {
-            Closeables.closeQuietly(in);
+            Closeables.close(in, true);
         }
         return str.toString();
     }

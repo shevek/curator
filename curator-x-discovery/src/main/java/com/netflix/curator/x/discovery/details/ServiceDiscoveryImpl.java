@@ -114,11 +114,11 @@ public class ServiceDiscoveryImpl<T> implements ServiceDiscovery<T>
     {
         for ( ServiceCache<T> cache : Lists.newArrayList(caches) )
         {
-            Closeables.closeQuietly(cache);
+            Closeables.close(cache, true);
         }
         for ( ServiceProvider<T> provider : Lists.newArrayList(providers) )
         {
-            Closeables.closeQuietly(provider);
+            Closeables.close(provider, true);
         }
 
         for ( ServiceInstance<T> service : services.values() )

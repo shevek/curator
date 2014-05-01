@@ -75,8 +75,8 @@ public class TestLeaderSelectorParticipants extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(selector);
-            Closeables.closeQuietly(client);
+            Closeables.close(selector, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -163,9 +163,9 @@ public class TestLeaderSelectorParticipants extends BaseClassForTests
         {
             for ( LeaderSelector selector : selectors )
             {
-                Closeables.closeQuietly(selector);
+                Closeables.close(selector, true);
             }
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

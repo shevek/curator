@@ -67,8 +67,8 @@ public class TestLeaderLatch extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(latch);
-            Closeables.closeQuietly(client);
+            Closeables.close(latch, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -124,9 +124,9 @@ public class TestLeaderLatch extends BaseClassForTests
         {
             for ( LeaderLatch latch : latches )
             {
-                Closeables.closeQuietly(latch);
+                Closeables.close(latch, true);
             }
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -167,9 +167,9 @@ public class TestLeaderLatch extends BaseClassForTests
 	    	 
 	         for ( LeaderLatch latch : latches )
 	         {
-	             Closeables.closeQuietly(latch);
+	             Closeables.close(latch, true);
 	         }
-	         Closeables.closeQuietly(client);
+	         Closeables.close(client, true);
 	     }
 
     }
@@ -225,7 +225,7 @@ public class TestLeaderLatch extends BaseClassForTests
         finally
         {
             executorService.shutdown();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -307,9 +307,9 @@ public class TestLeaderLatch extends BaseClassForTests
         {
             for ( LeaderLatch latch : latches )
             {
-                Closeables.closeQuietly(latch);
+                Closeables.close(latch, true);
             }
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 

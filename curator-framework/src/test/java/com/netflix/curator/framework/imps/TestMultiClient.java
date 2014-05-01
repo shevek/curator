@@ -91,8 +91,8 @@ public class TestMultiClient extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client1);
-            Closeables.closeQuietly(client2);
+            Closeables.close(client1, true);
+            Closeables.close(client2, true);
         }
     }
 }

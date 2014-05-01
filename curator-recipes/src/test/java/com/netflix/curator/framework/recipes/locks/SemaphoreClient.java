@@ -107,7 +107,7 @@ class SemaphoreClient implements Callable<Void>, ConnectionStateListener, Closea
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
         return null;
     }

@@ -136,7 +136,7 @@ public class TestSharedCount extends BaseClassForTests
         {
             for ( CuratorFramework client : clients )
             {
-                Closeables.closeQuietly(client);
+                Closeables.close(client, true);
             }
         }
     }

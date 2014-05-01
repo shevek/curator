@@ -99,7 +99,7 @@ public class ServiceCacheImpl<T> implements ServiceCache<T>, PathChildrenCacheLi
             );
         listenerContainer.clear();
 
-        Closeables.closeQuietly(cache);
+        Closeables.close(cache, true);
 
         discovery.cacheClosed(this);
     }

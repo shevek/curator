@@ -91,9 +91,9 @@ public class TestPathChildrenCacheInCluster
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(cluster);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
+            Closeables.close(cluster, true);
         }
     }
 }

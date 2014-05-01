@@ -1,0 +1,68 @@
+// Maven side of things
+subprojects {
+    apply plugin: 'maven' // Java plugin has to have been already applied for the conf2scope mappings to work
+    apply plugin: 'signing'
+
+    signing {
+        required { gradle.taskGraph.hasTask(uploadNexus) }
+        sign configurations.archives
+    }
+
+/**
+ * Publishing to Maven Central example provided from http://jedicoder.blogspot.com/2011/11/automated-gradle-project-deployment-to.html
+ * artifactory will execute uploadArchives to force generation of ivy.xml, and we don't want that to trigger an upload to maven
+ * central, so using custom upload task.
+ */
+task uploadNexus(type:Upload, dependsOn: signArchives) {
+    configuration = configurations.archives
+    onlyIf { ['release', 'snapshot'].contains(project.status) }
+    repositories.mavenDeployer {
+        beforeDeployment { signing.signPom(it) }
+
+        def nexusUsername = rootProject.hasProperty('nexusUsername')?rootProject.nexusUsername:''
+        def nexusPassword = rootProject.hasProperty('nexusPassword')?rootProject.nexusPassword:''
+
+        // repository(url: 'https://nexus.nebula.com/service/local/staging/deploy/maven2') {
+        repository(url: 'http://nexus.nebula.com/content/repositories/releases/') {
+            authentication(userName: nexusUsername, password: nexusPassword)
+        }
+
+        snapshotRepository(url: 'http://nexus.nebula.com/content/repositories/snapshots/') {
+            authentication(userName: nexusUsername, password: nexusPassword)
+        }
+
+        // Prevent datastamp from being appending to artifacts during deployment
+        uniqueVersion = false
+
+        // Closure to configure all the POM with extra info, common to all projects
+        pom.project {
+            name "${project.name}"
+            // description "${project.name}"
+            developers {
+                developer {
+                    id 'shevek'
+                    name 'Shevek'
+                    email 'shevek@nebula.com'
+                }
+            }
+            licenses {
+                license {
+                    name 'Proprietary code: DO NOT REDISTRIBUTE'
+                    url 'http://www.nebula.com/'
+                    distribution 'repo'
+                }
+            }
+            url "https://github.com/4P/${rootProject.githubProjectName}"
+            scm {
+                connection "scm:git:git@github.com:4P/${rootProject.githubProjectName}.git"
+                url "scm:git:git@github.com:4P/${rootProject.githubProjectName}.git"
+                developerConnection "scm:git:git@github.com:4P/${rootProject.githubProjectName}.git"
+            }
+            issueManagement {
+                system 'github'
+                url "https://github.com/4P/${rootProject.githubProjectName}/issues"
+            }
+        }
+    }
+}
+}

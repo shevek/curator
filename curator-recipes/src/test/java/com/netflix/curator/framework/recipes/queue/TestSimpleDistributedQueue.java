@@ -405,13 +405,13 @@ public class TestSimpleDistributedQueue extends BaseClassForTests
         }
     }
 
-    private void closeAll(CuratorFramework[] clients)
+    private void closeAll(CuratorFramework[] clients) throws Exception
     {
         if ( clients != null )
         {
             for ( CuratorFramework c : clients )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }

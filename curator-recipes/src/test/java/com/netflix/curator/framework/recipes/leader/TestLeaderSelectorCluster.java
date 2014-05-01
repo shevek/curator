@@ -76,8 +76,8 @@ public class TestLeaderSelectorCluster
         }
         finally
         {
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(cluster);
+            Closeables.close(client, true);
+            Closeables.close(cluster, true);
         }
     }
 
@@ -175,8 +175,8 @@ public class TestLeaderSelectorCluster
         }
         finally
         {
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(cluster);
+            Closeables.close(client, true);
+            Closeables.close(cluster, true);
         }
     }
 }

@@ -69,7 +69,7 @@ public class LockingExample
                         }
                         finally
                         {
-                            Closeables.closeQuietly(client);
+                            Closeables.close(client, true);
                         }
                         return null;
                     }
@@ -82,7 +82,7 @@ public class LockingExample
         }
         finally
         {
-            Closeables.closeQuietly(server);
+            Closeables.close(server, true);
         }
     }
 }

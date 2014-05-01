@@ -98,7 +98,7 @@ public class TestInterProcessReadWriteLock extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -118,7 +118,7 @@ public class TestInterProcessReadWriteLock extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -169,7 +169,7 @@ public class TestInterProcessReadWriteLock extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -190,7 +190,7 @@ public class TestInterProcessReadWriteLock extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -238,7 +238,7 @@ public class TestInterProcessReadWriteLock extends BaseClassForTests
                         }
                         finally
                         {
-                            Closeables.closeQuietly(client);
+                            Closeables.close(client, true);
                         }
                         return null;
                     }

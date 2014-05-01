@@ -141,8 +141,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -199,8 +199,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
     
@@ -350,11 +350,11 @@ public class TestDistributedQueue extends BaseClassForTests
         {
             for ( DistributedQueue<TestQueueItem> consumer : consumers )
             {
-                 Closeables.closeQuietly(consumer);
+                 Closeables.close(consumer, true);
             }
             for ( CuratorFramework curatorFramework : consumerClients )
             {
-                Closeables.closeQuietly(curatorFramework);
+                Closeables.close(curatorFramework, true);
             }
         }
     }
@@ -474,13 +474,13 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(producerQueue);
-            Closeables.closeQuietly(consumerQueue1);
-            Closeables.closeQuietly(consumerQueue2);
+            Closeables.close(producerQueue, true);
+            Closeables.close(consumerQueue1, true);
+            Closeables.close(consumerQueue2, true);
 
-            Closeables.closeQuietly(producerClient);
-            Closeables.closeQuietly(consumerClient1);
-            Closeables.closeQuietly(consumerClient2);
+            Closeables.close(producerClient, true);
+            Closeables.close(consumerClient1, true);
+            Closeables.close(consumerClient2, true);
         }
     }
 
@@ -539,8 +539,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -584,8 +584,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -624,8 +624,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -683,8 +683,8 @@ public class TestDistributedQueue extends BaseClassForTests
                 latch.countDown();
             }
 
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -723,8 +723,8 @@ public class TestDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 }

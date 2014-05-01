@@ -94,7 +94,7 @@ public class TestServiceDiscovery
         {
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -142,7 +142,7 @@ public class TestServiceDiscovery
         {
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -178,7 +178,7 @@ public class TestServiceDiscovery
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -236,7 +236,7 @@ public class TestServiceDiscovery
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }
@@ -269,7 +269,7 @@ public class TestServiceDiscovery
             Collections.reverse(closeables);
             for ( Closeable c : closeables )
             {
-                Closeables.closeQuietly(c);
+                Closeables.close(c, true);
             }
         }
     }

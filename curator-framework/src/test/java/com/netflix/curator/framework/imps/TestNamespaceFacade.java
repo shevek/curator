@@ -58,8 +58,8 @@ public class TestNamespaceFacade extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client2);
-            Closeables.closeQuietly(client);
+            Closeables.close(client2, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -82,7 +82,7 @@ public class TestNamespaceFacade extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -99,7 +99,7 @@ public class TestNamespaceFacade extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -122,7 +122,7 @@ public class TestNamespaceFacade extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 

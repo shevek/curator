@@ -156,8 +156,8 @@ public class TestBoundedDistributedQueue extends BaseClassForTests
                             }
                             finally
                             {
-                                Closeables.closeQuietly(queue);
-                                Closeables.closeQuietly(client);
+                                Closeables.close(queue, true);
+                                Closeables.close(client, true);
                             }
                             return null;
                         }
@@ -184,7 +184,7 @@ public class TestBoundedDistributedQueue extends BaseClassForTests
         finally
         {
             executor.shutdownNow();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -258,8 +258,8 @@ public class TestBoundedDistributedQueue extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(queue);
-            Closeables.closeQuietly(client);
+            Closeables.close(queue, true);
+            Closeables.close(client, true);
         }
     }
 }

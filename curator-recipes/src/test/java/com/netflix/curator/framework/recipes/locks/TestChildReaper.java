@@ -62,8 +62,8 @@ public class TestChildReaper extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(reaper);
-            Closeables.closeQuietly(client);
+            Closeables.close(reaper, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -92,8 +92,8 @@ public class TestChildReaper extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(reaper);
-            Closeables.closeQuietly(client);
+            Closeables.close(reaper, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -132,8 +132,8 @@ public class TestChildReaper extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(reaper);
-            Closeables.closeQuietly(client);
+            Closeables.close(reaper, true);
+            Closeables.close(client, true);
         }
     }
 }

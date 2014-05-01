@@ -72,6 +72,6 @@ public class ExampleServer implements Closeable
     @Override
     public void close() throws IOException
     {
-        Closeables.closeQuietly(serviceDiscovery);
+        Closeables.close(serviceDiscovery, true);
     }
 }

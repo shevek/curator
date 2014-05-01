@@ -65,12 +65,12 @@ public class DiscoveryExample
         {
             for ( ServiceProvider<InstanceDetails> cache : providers.values() )
             {
-                Closeables.closeQuietly(cache);
+                Closeables.close(cache, true);
             }
 
-            Closeables.closeQuietly(serviceDiscovery);
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(server);
+            Closeables.close(serviceDiscovery, true);
+            Closeables.close(client, true);
+            Closeables.close(server, true);
         }
     }
 
@@ -128,7 +128,7 @@ public class DiscoveryExample
         {
             for ( ExampleServer server : servers )
             {
-                Closeables.closeQuietly(server);
+                Closeables.close(server, true);
             }
         }
     }
@@ -186,7 +186,7 @@ public class DiscoveryExample
         }
         finally
         {
-            Closeables.closeQuietly(serviceDiscovery);
+            Closeables.close(serviceDiscovery, true);
         }
     }
 
@@ -195,7 +195,7 @@ public class DiscoveryExample
         System.out.println("\t" + instance.getPayload().getDescription() + ": " + instance.buildUriSpec());
     }
 
-    private static void deleteInstance(String[] args, String command, List<ExampleServer> servers)
+    private static void deleteInstance(String[] args, String command, List<ExampleServer> servers) throws Exception
     {
         // simulate a random instance going down
         // in a real application, this would occur due to normal operation, a crash, maintenance, etc.
@@ -227,7 +227,7 @@ public class DiscoveryExample
         }
 
         servers.remove(server);
-        Closeables.closeQuietly(server);
+        Closeables.close(server, true);
         System.out.println("Removed a random instance of: " + serviceName);
     }
 

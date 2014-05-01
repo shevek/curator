@@ -93,7 +93,7 @@ public class TestSessionFailRetryLoop extends BaseClassForTests
         finally
         {
             retryLoop.close();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -165,7 +165,7 @@ public class TestSessionFailRetryLoop extends BaseClassForTests
         finally
         {
             retryLoop.close();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -220,7 +220,7 @@ public class TestSessionFailRetryLoop extends BaseClassForTests
         finally
         {
             retryLoop.close();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -276,7 +276,7 @@ public class TestSessionFailRetryLoop extends BaseClassForTests
         finally
         {
             retryLoop.close();
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 }

@@ -118,7 +118,7 @@ public abstract class TestInterProcessMutexBase extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client);
+            Closeables.close(client, true);
         }
     }
 
@@ -458,8 +458,8 @@ public abstract class TestInterProcessMutexBase extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(client1);
-            Closeables.closeQuietly(client2);
+            Closeables.close(client1, true);
+            Closeables.close(client2, true);
         }
     }
 }

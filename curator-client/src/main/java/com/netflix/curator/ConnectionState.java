@@ -112,7 +112,7 @@ class ConnectionState implements Watcher, Closeable
     {
         log.debug("Closing");
 
-        Closeables.closeQuietly(ensembleProvider);
+        Closeables.close(ensembleProvider, true);
         try
         {
             zooKeeper.closeAndClear();
@@ -250,7 +250,9 @@ class ConnectionState implements Watcher, Closeable
         }
         catch ( Exception e )
         {
-            queueBackgroundException(e);
+            // This isn't valuable as a background exception.
+            // Also, it breaks LeaderSelector.
+            // queueBackgroundException(e);
             log.warn("Failed to update server list", e);
             try
             {

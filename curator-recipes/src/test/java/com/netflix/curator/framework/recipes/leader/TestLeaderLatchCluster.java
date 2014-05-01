@@ -86,10 +86,10 @@ public class TestLeaderLatchCluster
         {
             for ( ClientAndLatch client : clients )
             {
-                Closeables.closeQuietly(client.latch);
-                Closeables.closeQuietly(client.client);
+                Closeables.close(client.latch, true);
+                Closeables.close(client.client, true);
             }
-            Closeables.closeQuietly(cluster);
+            Closeables.close(cluster, true);
         }
     }
 

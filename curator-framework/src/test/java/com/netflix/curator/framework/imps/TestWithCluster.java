@@ -98,8 +98,8 @@ public class TestWithCluster
             }
             finally
             {
-                Closeables.closeQuietly(client);
-                Closeables.closeQuietly(cluster);
+                Closeables.close(client, true);
+                Closeables.close(cluster, true);
             }
         }
         finally
@@ -137,8 +137,8 @@ public class TestWithCluster
         }
         finally
         {
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(cluster);
+            Closeables.close(client, true);
+            Closeables.close(cluster, true);
         }
     }
 
@@ -195,8 +195,8 @@ public class TestWithCluster
         }
         finally
         {
-            Closeables.closeQuietly(client);
-            Closeables.closeQuietly(cluster);
+            Closeables.close(client, true);
+            Closeables.close(cluster, true);
         }
     }
 }

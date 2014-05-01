@@ -94,8 +94,8 @@ public class TestNodeCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -157,8 +157,8 @@ public class TestNodeCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -200,8 +200,8 @@ public class TestNodeCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 
@@ -248,8 +248,8 @@ public class TestNodeCache extends BaseClassForTests
         }
         finally
         {
-            Closeables.closeQuietly(cache);
-            Closeables.closeQuietly(client);
+            Closeables.close(cache, true);
+            Closeables.close(client, true);
         }
     }
 }

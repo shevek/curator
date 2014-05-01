@@ -126,7 +126,7 @@ public class ChildReaper implements Closeable
     {
         if ( state.compareAndSet(State.STARTED, State.CLOSED) )
         {
-            Closeables.closeQuietly(reaper);
+            Closeables.close(reaper, true);
             task.cancel(true);
         }
     }
